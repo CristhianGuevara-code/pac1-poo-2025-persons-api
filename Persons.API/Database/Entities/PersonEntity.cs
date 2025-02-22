@@ -1,14 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Persons.API.Database.Entities.Common;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace Persons.API.Database.Entities
 {
     [Table("persons")]
-    public class PersonEntity
+    public class PersonEntity : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public Guid Id { get; set; }
-
         [Column("first_name")]
         [Required]
         public string FirstName { get; set; }
@@ -17,7 +14,6 @@ namespace Persons.API.Database.Entities
         [Required]
         public string LastName { get; set; }
         
-
         [Column("dni")]
         [Required]
         public string DNI { get; set; }
@@ -25,16 +21,14 @@ namespace Persons.API.Database.Entities
         [Column("gender")]
         public string Gender { get; set; }
 
-        [Column("created_by")]
-        public string CreatedBy { get; set; }
 
-        [Column("created_date")]
-        public DateTime CreateDate { get; set; }
+        //Relacion entre las tablas de persons y countries:
+        [Column("country_id")]  
+        public Guid? CountryId { get; set; }  // Guid? :: acepta Valor nulo
 
-        [Column("updated_by")]
-        public string UpdatedBy { get; set; }
+        //Propiedad de navegacion:
+        [ForeignKey(nameof(CountryId))]  
+        public virtual CountryEntity Country { get; set; }
 
-        [Column("updated_date")]
-        public DateTime UpdatedDate { get; set; }
     }
 }
